@@ -1,0 +1,37 @@
+{{ define "db" }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/db.css">
+    <title>Filling DB</title>
+</head>
+
+<body>
+    <div class="ml-2 mt-1">
+        <form name="form" action="/fill-db" method="post">
+            <span class="text-small">Название болезни(lowercase):</span>
+            <br>
+            <input name="disease" id="disease" type="text">
+            <br>
+            <span class="text-small">Текст с симптомами:</span>
+            <br>
+            <textarea name="symptoms" id="symptoms"></textarea>
+            <br>
+            <span class="text-small">Текст с лечением:</span>
+            <br>
+            <textarea name="therapy" id="therapy"></textarea>
+            <br>
+            <span class="text-small">Возможные носители: (через пробел, lowercase)</span>
+            <br>
+            <textarea name="pets" id="pets"></textarea>
+            <br>
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+</body>
+
+</html>
+{{ end }}
