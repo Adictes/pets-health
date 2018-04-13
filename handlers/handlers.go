@@ -39,14 +39,13 @@ func GetRequest(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 	defer ws.Close()
 
-	msg := Request{}
 	for {
-		err := ws.ReadJSON(msg)
+		_, msg, err := ws.ReadMessage()
 		if err != nil {
-			log.Println("ReadJSON:", err)
+			log.Println("ReadMessage:", err)
 			return
 		}
-		fmt.Println(msg)
+		fmt.Println(string(msg))
 	}
 }
 
