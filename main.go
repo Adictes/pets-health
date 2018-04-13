@@ -1,11 +1,16 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/Adictes/pets-health/handlers"
 	"github.com/julienschmidt/httprouter"
+	"github.com/olivere/elastic"
 )
 
 const mapping = `
@@ -38,29 +43,30 @@ const mapping = `
 }`
 
 func init() {
-	// ctx := context.Background()
-	// c, err := elastic.NewClient(
-	// 	elastic.SetURL("http://elastic:9200"),
-	// 	elastic.SetErrorLog(log.New(os.Stderr, "ELASTIC ", log.LstdFlags)),
-	// 	elastic.SetInfoLog(log.New(os.Stdout, "", log.LstdFlags)),
-	// )
-	// if err != nil {
-	// 	log.Fatal("elastic.NewClient:", err)
-	// }
+	time.Sleep(60 * time.Second)
+	ctx := context.Background()
+	c, err := elastic.NewClient(
+		elastic.SetURL("http://elastic:9200"),
+		elastic.SetErrorLog(log.New(os.Stderr, "ELASTIC ", log.LstdFlags)),
+		elastic.SetInfoLog(log.New(os.Stdout, "", log.LstdFlags)),
+	)
+	if err != nil {
+		log.Fatal("elastic.NewClient:", err)
+	}
 
-	// info, code, err := c.Ping("http://elastic:9200").Do(ctx)
-	// if err != nil {
-	// 	log.Println("c.Ping:", err)
-	// }
-	// fmt.Printf("Elasticsearch returned with code %d and version %s\n", code, info.Version.Number)
+	info, code, err := c.Ping("http://elastic:9200").Do(ctx)
+	if err != nil {
+		log.Println("c.Ping:", err)
+	}
+	fmt.Printf("Elasticsearch returned with code %d and version %s\n", code, info.Version.Number)
 
-	// db, err := c.CreateIndex("db").BodyString(mapping).Do(ctx)
-	// if err != nil {
-	// 	log.Println("c.CreateIndex: ", err)
-	// }
-	// if !db.Acknowledged {
-	// 	log.Println("db is not acknowledged")
-	// }
+	db, err := c.CreateIndex("db").BodyString(mapping).Do(ctx)
+	if err != nil {
+		log.Println("c.CreateIndex: ", err)
+	}
+	if !db.Acknowledged {
+		log.Println("db is not acknowledged")
+	}
 	log.Println("DB successfully created")
 }
 

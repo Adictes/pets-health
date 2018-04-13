@@ -1,13 +1,16 @@
 package handlers
 
 import (
+	"context"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/websocket"
 	"github.com/julienschmidt/httprouter"
+	"github.com/olivere/elastic"
 )
 
 // Disease is @TODO
@@ -47,21 +50,21 @@ func GetRequest(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 	defer ws.Close()
 
-	// ctx := context.Background()
-	// c, err := elastic.NewClient(
-	// 	elastic.SetURL("http://elastic:9200"),
-	// 	elastic.SetErrorLog(log.New(os.Stderr, "ELASTIC ", log.LstdFlags)),
-	// 	elastic.SetInfoLog(log.New(os.Stdout, "", log.LstdFlags)),
-	// )
-	// if err != nil {
-	// 	log.Fatal("elastic.NewClient:", err)
-	// }
+	ctx := context.Background()
+	c, err := elastic.NewClient(
+		elastic.SetURL("http://elastic:9200"),
+		elastic.SetErrorLog(log.New(os.Stderr, "ELASTIC ", log.LstdFlags)),
+		elastic.SetInfoLog(log.New(os.Stdout, "", log.LstdFlags)),
+	)
+	if err != nil {
+		log.Fatal("elastic.NewClient:", err)
+	}
 
-	// info, code, err := c.Ping("http://elastic:9200").Do(ctx)
-	// if err != nil {
-	// 	log.Println("c.Ping:", err)
-	// }
-	// fmt.Printf("Elasticsearch returned with code %d and version %s\n", code, info.Version.Number)
+	info, code, err := c.Ping("http://elastic:9200").Do(ctx)
+	if err != nil {
+		log.Println("c.Ping:", err)
+	}
+	fmt.Printf("Elasticsearch returned with code %d and version %s\n", code, info.Version.Number)
 
 	msg := Request{}
 	for {
