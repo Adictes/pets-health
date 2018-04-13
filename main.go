@@ -8,6 +8,62 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+const mapping = `
+{
+	"settings":{
+		"number_of_shards": 1,
+		"number_of_replicas":0
+	},
+	"mappings":{
+		"disease":{
+			"dynamic": false,
+			"properties":{
+				"name":{
+					"type": "keyword"
+				},
+				"pets":{
+					"type": "keyword"
+				},				
+				"symptoms":{
+					"type": "text",
+					"analyzer": "russian",
+					"search_analyzer": "russian"
+				},
+				"therapy":{
+					"type": "text"
+				}
+			}
+		}
+	}
+}`
+
+func init() {
+	// ctx := context.Background()
+	// c, err := elastic.NewClient(
+	// 	elastic.SetURL("http://elastic:9200"),
+	// 	elastic.SetErrorLog(log.New(os.Stderr, "ELASTIC ", log.LstdFlags)),
+	// 	elastic.SetInfoLog(log.New(os.Stdout, "", log.LstdFlags)),
+	// )
+	// if err != nil {
+	// 	log.Fatal("elastic.NewClient:", err)
+	// }
+
+	// info, code, err := c.Ping("http://elastic:9200").Do(ctx)
+	// if err != nil {
+	// 	log.Println("c.Ping:", err)
+	// }
+	// fmt.Printf("Elasticsearch returned with code %d and version %s\n", code, info.Version.Number)
+
+	// db, err := c.CreateIndex("db").BodyString(mapping).Do(ctx)
+	// if err != nil {
+	// 	log.Println("c.CreateIndex: ", err)
+	// }
+	// if !db.Acknowledged {
+	// 	log.Println("db is not acknowledged")
+	// }
+	log.Println("DB successfully created")
+}
+
 func main() {
 	router := httprouter.New()
 

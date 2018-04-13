@@ -10,10 +10,18 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-// Request is @TODO
+// Disease is @TODO
+type Disease struct {
+	Name     string   `json:"name"`
+	Pets     []string `json:"pets"`
+	Symptoms string   `json:"symptoms"`
+	Therapy  string   `json:"therapy"`
+}
+
+// Request is data type that we get from web
 type Request struct {
-	Name  string
-	Query string
+	Name  string `json:"name"`
+	Query string `json:"query"`
 }
 
 var (
@@ -39,13 +47,31 @@ func GetRequest(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 	defer ws.Close()
 
+	// ctx := context.Background()
+	// c, err := elastic.NewClient(
+	// 	elastic.SetURL("http://elastic:9200"),
+	// 	elastic.SetErrorLog(log.New(os.Stderr, "ELASTIC ", log.LstdFlags)),
+	// 	elastic.SetInfoLog(log.New(os.Stdout, "", log.LstdFlags)),
+	// )
+	// if err != nil {
+	// 	log.Fatal("elastic.NewClient:", err)
+	// }
+
+	// info, code, err := c.Ping("http://elastic:9200").Do(ctx)
+	// if err != nil {
+	// 	log.Println("c.Ping:", err)
+	// }
+	// fmt.Printf("Elasticsearch returned with code %d and version %s\n", code, info.Version.Number)
+
+	msg := Request{}
 	for {
-		_, msg, err := ws.ReadMessage()
+		err := ws.ReadJSON(msg)
 		if err != nil {
-			log.Println("ReadMessage:", err)
+			log.Println("ReadJSON:", err)
 			return
 		}
-		fmt.Println(string(msg))
+		fmt.Println(msg)
+
 	}
 }
 
