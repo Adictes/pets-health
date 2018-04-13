@@ -1,6 +1,6 @@
 var wsr = new WebSocket("ws://" + window.location.host + "/wsr");
 
-
+var dict = { 0: "собака", 1: "кошка" };
 
 window.onload = function () {
 
@@ -8,18 +8,15 @@ window.onload = function () {
 	function showContent() {
 
 		var z = document.getElementsByName('a');
-		for (var i = 0; i < z.length; i++)  {
+		for (var i = 0; i < z.length; i++) {
 
-    if  (z[i].checked) {
+			if (z[i].checked) {
 
-     var  petNumber = i; break;
+				var pet = dict[i]; break;
 
-    }
+			}
 
-}
-
-alert(petNumber);
-
+		}
 
 
 		var output = '';
@@ -28,10 +25,9 @@ alert(petNumber);
 
 		document.getElementById('content').innerHTML = output;
 
-		var query = document.getElementById("theSearch").innerText;
-		var req = '{"name": "' + petNumber + '", "query":"' + query + '"}';
+		var query = document.getElementById("theSearch").value;
+		var req = '{ "name":"' + pet + '", "query": "' + query + '" }';
 		wsr.send(req);
-
 
 	}
 
@@ -46,30 +42,14 @@ alert(petNumber);
 }
 
 
-	
-wsr.onmessage = function(event){
+
+wsr.onmessage = function (event) {
 
 	//var data=JSON.parse(event.data); 
 	var dataName = 'имя болезни';
 	var dataTherapy = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
-	var	output = '<br><div class="naming"> <div class="percentage">Проценты</div><div class="recipe">'+dataName+'  '+dataTherapy+'</div></div>';
+	var output = '<br><div class="naming"> <div class="percentage">Проценты</div><div class="recipe">' + dataName + '  ' + dataTherapy + '</div></div>';
 
 	document.getElementById('content').innerHTML += output;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

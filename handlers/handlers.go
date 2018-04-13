@@ -65,7 +65,7 @@ func GetRequest(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	msg := Request{}
 	for {
-		err := ws.ReadJSON(msg)
+		err := ws.ReadJSON(&msg)
 		if err != nil {
 			log.Println("ReadJSON:", err)
 			return
