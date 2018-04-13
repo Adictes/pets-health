@@ -6,19 +6,53 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/websocket"
 	"github.com/julienschmidt/httprouter"
 )
 
-var t = template.Must(template.New("pets-health").ParseGlob("templates/*.html"))
-
-// FormView shows form to fill the db
-func FormView(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	t.ExecuteTemplate(w, "db", nil)
+// Request is @TODO
+type Request struct {
+	Name  string
+	Query string
 }
+
+var (
+	t        = template.Must(template.New("pets-health").ParseGlob("templates/*.html"))
+	upgrader = websocket.Upgrader{
+		ReadBufferSize:    1024,
+		WriteBufferSize:   1024,
+		EnableCompression: true,
+	}
+)
 
 // Index is main page
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	t.ExecuteTemplate(w, "index", nil)
+}
+
+// GetRequest is websocket connection that perform user request @TODO
+func GetRequest(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	ws, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Println("Upgrading:", err)
+		return
+	}
+	defer ws.Close()
+
+	msg := Request{}
+	for {
+		err := ws.ReadJSON(msg)
+		if err != nil {
+			log.Println("ReadJSON:", err)
+			return
+		}
+		fmt.Println(msg)
+	}
+}
+
+// FormView shows form to fill the db
+func FormView(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	t.ExecuteTemplate(w, "db", nil)
 }
 
 // FillDB @TODO

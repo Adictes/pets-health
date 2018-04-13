@@ -14,6 +14,7 @@ func main() {
 	router.ServeFiles("/assets/*filepath", http.Dir("assets/"))
 
 	router.GET("/", handlers.Index)
+	router.GET("/wsr", handlers.GetRequest)
 	router.GET("/fill-db", handlers.FormView)
 	router.POST("/fill-db", handlers.FillDB)
 
