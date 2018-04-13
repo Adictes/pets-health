@@ -18,19 +18,19 @@ window.onload = function () {
 
 }
 
-alert(s);
+alert(petNumber);
 
 
 
 		var output = '';
 
-		output += '<div class="naming"> <div class="percentage">Проценты</div><div class="recipe">Диагноз и рекомендации</div></div>'
+		output += '<div class="naming"> <div class="percentage">Проценты</div><div class="recipe">Диагноз и рекомендации</div></div>';
 
 		document.getElementById('content').innerHTML = output;
 
 		var query = document.getElementById("theSearch").innerText;
-		var req = '{"name": "'+petNumber'", "query":"' + query + '"}';
-		wsr.send(JSON.parse(req))
+		var req = '{"name": "' + petNumber + '", "query":"' + query + '"}';
+		wsr.send(req);
 
 
 	}
@@ -46,19 +46,19 @@ alert(s);
 }
 
 
-	/*
+	
 wsr.onmessage = function(event){
 
-	var data=JSON.parse(event.data); //4 поля 
-	/*data.name - имя болезни
-	pets -
-	symp- 
-	therapy - лечение
+	//var data=JSON.parse(event.data); 
+	var dataName = 'имя болезни';
+	var dataTherapy = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
+	var	output = '<br><div class="naming"> <div class="percentage">Проценты</div><div class="recipe">'+dataName+'  '+dataTherapy+'</div></div>';
+
+	document.getElementById('content').innerHTML += output;
 }
 
 
-*/
 
 
 
