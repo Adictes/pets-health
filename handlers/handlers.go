@@ -16,6 +16,11 @@ func FormView(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	t.ExecuteTemplate(w, "db", nil)
 }
 
+// Index is main page
+func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	t.ExecuteTemplate(w, "index", nil)
+}
+
 // FillDB @TODO
 func FillDB(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if err := r.ParseForm(); err != nil {
