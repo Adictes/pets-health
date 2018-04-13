@@ -76,7 +76,7 @@ input[name="theSearch"]{
 	background-color: CornflowerBlue;
 	border:none;
 	height: 20px;
-	width: 250px;
+	width: 280px;
 	padding-right: 50px;
 
 }
@@ -119,7 +119,9 @@ border: 2px solid CornflowerBlue;
  	width: 20%;
  }
 
-
+.logo img{
+	width: 150px;
+}
 
 
 
