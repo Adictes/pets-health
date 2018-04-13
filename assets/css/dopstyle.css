@@ -72,12 +72,20 @@ display: none;
 	
 }
 
+.searchBar{
+	background-color: CornflowerBlue;
+	width: 310px;
+	margin: 0 auto;
+	margin-bottom: 5px;
+
+
+}
+
 input[name="theSearch"]{
 	background-color: CornflowerBlue;
 	border:none;
 	height: 20px;
-	width: 250px;
-	padding-right: 50px;
+	width: 300px;
 
 }
 
@@ -86,9 +94,7 @@ input[name="theSearch"]{
 button{
 	background-color: CornflowerBlue;
 	border:none;
-	margin-left: -50px;
-	
-	height: 20px;
+	//height: 20px;
 	cursor: pointer;
 }
 
@@ -119,7 +125,9 @@ border: 2px solid CornflowerBlue;
  	width: 20%;
  }
 
-
+.logo img{
+	width: 150px;
+}
 
 
 
