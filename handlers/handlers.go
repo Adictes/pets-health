@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"reflect"
 
 	"github.com/gorilla/websocket"
 	"github.com/julienschmidt/httprouter"
@@ -83,7 +84,7 @@ func FormView(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	t.ExecuteTemplate(w, "db", nil)
 }
 
-// FillDB @TODO
+// FillDB is websocket handler that add data to ES and prints them
 func FillDB(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if err := r.ParseForm(); err != nil {
 		log.Println("Form parsing: ", err)
@@ -91,8 +92,53 @@ func FillDB(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 
+	ctx := context.Background()
+	c, err := elastic.NewClient(
+		elastic.SetURL("http://elastic:9200"),
+		elastic.SetErrorLog(log.New(os.Stderr, "ELASTIC ", log.LstdFlags)),
+		elastic.SetInfoLog(log.New(os.Stdout, "", log.LstdFlags)),
+	)
+	if err != nil {
+		log.Fatal("elastic.NewClient:", err)
+	}
+
+	d := Disease{
+		Name:     r.FormValue("disease"),
+		Pets:     []string{r.FormValue("pets")},
+		Symptoms: r.FormValue("symptoms"),
+		Therapy:  r.FormValue("therapy"),
+	}
+
 	fmt.Printf("Name: %s\nSymptoms: %s\n,Therapy: %s\nPets: %s\n",
-		r.FormValue("disease"), r.FormValue("symptoms"), r.FormValue("therapy"), r.FormValue("pets"))
+		d.Name, d.Symptoms, d.Therapy, d.Pets)
+
+	_, err = c.Index().
+		Index("db").
+		Type("disease").
+		BodyJson(d).
+		Do(ctx)
+	if err != nil {
+		log.Println("c.Index: ", err)
+	}
+
+	matchAll := elastic.NewMatchAllQuery()
+
+	searchResult, err := c.Search().
+		Index("db").
+		Query(matchAll).
+		Pretty(true).
+		Do(ctx)
+	if err != nil {
+		log.Println("c.Search: ", err)
+	}
+
+	var dt Disease
+	for _, item := range searchResult.Each(reflect.TypeOf(dt)) {
+		if d, ok := item.(Disease); ok {
+			fmt.Printf("Name: %s\nSymptoms: %s\n,Therapy: %s\nPets: %s\n",
+				d.Name, d.Symptoms, d.Therapy, d.Pets)
+		}
+	}
 
 	http.Redirect(w, r, "/fill-db", http.StatusSeeOther)
 }
