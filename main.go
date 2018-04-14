@@ -43,7 +43,7 @@ const mapping = `
 }`
 
 func init() {
-	time.Sleep(60 * time.Second)
+	time.Sleep(40 * time.Second)
 	ctx := context.Background()
 	c, err := elastic.NewClient(
 		elastic.SetURL("http://elastic:9200"),
