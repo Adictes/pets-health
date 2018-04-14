@@ -3,6 +3,9 @@ version: "3.6"
 services:
   web:
     build: .
+    volumes:
+      - assets:/assets
+      - templates:/templates
     depends_on:
       - elastic
     ports:
