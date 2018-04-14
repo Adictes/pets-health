@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"reflect"
+	"strings"
 
 	"github.com/gorilla/websocket"
 	"github.com/julienschmidt/httprouter"
@@ -76,6 +77,40 @@ func GetRequest(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		}
 		fmt.Println(msg)
 
+		// Нам приходят симптомы в виде набора - {c1, c2, c3}
+		// необходимо сделать split по запятым
+		symptomsSet := strings.Split(msg.Query, ",")
+
+		// Ищем наши симптомы в БД, опуская неподходящие по животному.
+		// Отправляем на выход самые подходящие в порядке убывания схожести
+		// Учесть ненахождение.
+		// При плохих результатах, предложить на выбор еще симптомы,
+		// чтобы уточнить результат
+
+		for _, sympt := range symptomsSet {
+			termQuery := elastic.NewTermQuery("pets", msg.Name)
+			matchQuery := elastic.NewMatchQuery("symptoms", sympt)
+
+			searchResult, err := c.Search().
+				Index("db").
+				Type("disease").
+				Query(termQuery).
+				Query(matchQuery).
+				Sort("max_score", false).
+				Pretty(true).
+				Do(ctx)
+			if err != nil {
+				log.Println("c.Search: ", err)
+			}
+			fmt.Printf("Query took %d milliseconds\n", searchResult.TookInMillis)
+
+			var dt Disease
+			for _, item := range searchResult.Each(reflect.TypeOf(dt)) {
+				d := item.(Disease)
+				fmt.Printf("Name: %s\nSymptoms: %s\n,Therapy: %s\nPets: %s\n",
+					d.Name, d.Symptoms, d.Therapy, d.Pets)
+			}
+		}
 	}
 }
 
