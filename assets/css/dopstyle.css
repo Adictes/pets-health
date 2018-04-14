@@ -20,8 +20,16 @@
 display: none;
 }
 
-[for="dog"]{background: url(../images/dog.jpg) 0 0 no-repeat;}
-[for="cat"]{background: url(../images/cat.jpg) 0 0 no-repeat;}
+[for="dog"]{background-image: url(../images/dog.jpg) ;}
+[for="cat"]{
+
+	background-image: url(../images/cat.png) ;
+	
+
+
+	
+
+}
 
 [for="dog"], [for="cat"] {
   position: relative;
@@ -29,8 +37,9 @@ display: none;
   width: 60px;
   height: 60px;
   
-  background-size: contain; 
+  background-size: cover; 
   cursor: pointer;
+
 }
 
 
@@ -40,6 +49,8 @@ display: none;
   position: absolute;
   width: 100%;
   height: 100%;
+  background-color:white; 
+  opacity: 0.45;
 }
 
 [for="dog"]:before, [for="cat"]:before  {
@@ -49,16 +60,31 @@ display: none;
 
 #dog:checked ~ [for="dog"]:after, #cat:checked ~ [for="cat"]:after {
   border-radius: 100%;
-  padding: 7px;
-  left: -9px;
-  top: -5px;
-  box-shadow:
-       inset 0 3px 5px 1px rgba(0,0,0,.1),
-        0 1px 0 rgba(65, 105, 225,.4),
-        0 0 10px 2px rgba(65, 105, 225, .5);
+  
+  //padding: 7px;
+  //left: -9px;
+  //top: -5px;
+ // box-shadow:
+   //    inset 0 3px 5px 1px rgba(0,0,0,.1),
+     //   0 1px 0 rgba(65, 105, 225,.4),
+       // 0 0 20px 2px rgba(65, 105, 225, .5);
 
-       
+       // background-color: rgb(65, 105, 225); 
+       // background-size: contain;
+       opacity: 0;
+
+ }
+
+#cat:checked ~ [for="cat"]:after {
+
+
+	background-color: rgba(65, 105, 225, .7); 
+	background-image: url(../images/cat.png) ;
+        background-size: cover;
+
+
 }
+
 
 
 .information{
