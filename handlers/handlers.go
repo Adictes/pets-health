@@ -75,7 +75,7 @@ func GetRequest(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 			log.Println("ReadJSON:", err)
 			return
 		}
-		fmt.Println(msg)
+		fmt.Printf("REQUEST___: %v", msg)
 
 		// Нам приходят симптомы в виде набора - {c1, c2, c3}
 		// необходимо сделать split по запятым
@@ -95,8 +95,7 @@ func GetRequest(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 				Index("db").
 				Type("disease").
 				Query(termQuery).
-				Query(matchQuery).
-				Sort("max_score", false).
+				PostFilter(matchQuery).
 				Pretty(true).
 				Do(ctx)
 			if err != nil {
@@ -107,7 +106,7 @@ func GetRequest(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 			var dt Disease
 			for _, item := range searchResult.Each(reflect.TypeOf(dt)) {
 				d := item.(Disease)
-				fmt.Printf("Name: %s\nSymptoms: %s\n,Therapy: %s\nPets: %s\n",
+				fmt.Printf("OUTPUT___: Name: %s\nSymptoms: %s\n,Therapy: %s\nPets: %s\n",
 					d.Name, d.Symptoms, d.Therapy, d.Pets)
 			}
 		}
