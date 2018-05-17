@@ -26,7 +26,7 @@ const mapping = `
 				},				
 				"symptoms":{
 					"type": "text",
-					"analyzer": "russian_morphology",
+					"analyzer": "russian_morphology"
 				},
 				"therapy":{
 					"type": "text"
