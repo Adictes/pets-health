@@ -12,7 +12,7 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/julienschmidt/httprouter"
-	"github.com/olivere/elastic"
+	"gopkg.in/olivere/elastic.v5"
 )
 
 // Disease is @TODO
@@ -54,19 +54,15 @@ func GetRequest(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	ctx := context.Background()
 	c, err := elastic.NewClient(
-		elastic.SetURL("http://elastic:9200"),
+		elastic.SetSniff(false),
+		elastic.SetURL("http://82.202.221.228:9200"),
+		elastic.SetBasicAuth("elastic", "changeme"),
 		elastic.SetErrorLog(log.New(os.Stderr, "ELASTIC ", log.LstdFlags)),
 		elastic.SetInfoLog(log.New(os.Stdout, "", log.LstdFlags)),
 	)
 	if err != nil {
 		log.Fatal("elastic.NewClient:", err)
 	}
-
-	info, code, err := c.Ping("http://elastic:9200").Do(ctx)
-	if err != nil {
-		log.Println("c.Ping:", err)
-	}
-	fmt.Printf("Elasticsearch returned with code %d and version %s\n", code, info.Version.Number)
 
 	msg := Request{}
 	for {
@@ -128,7 +124,9 @@ func FillDB(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	ctx := context.Background()
 	c, err := elastic.NewClient(
-		elastic.SetURL("http://elastic:9200"),
+		elastic.SetSniff(false),
+		elastic.SetBasicAuth("elastic", "changeme"),
+		elastic.SetURL("http://82.202.221.228:9200"),
 		elastic.SetErrorLog(log.New(os.Stderr, "ELASTIC ", log.LstdFlags)),
 		elastic.SetInfoLog(log.New(os.Stdout, "", log.LstdFlags)),
 	)
