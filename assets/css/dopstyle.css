@@ -1,3 +1,9 @@
+body {
+    background-color: lightseagreen;
+    width:100%;
+    height: 100%;
+}
+
 .headLine {
     width: 100%;
 }
@@ -11,13 +17,9 @@
     margin-right: 10px;
 }
 
-#dog,
-#cat {
-    display: none;
-}
 
 [for="dog"] {
-    background-image: url(../images/dog.jpg);
+    background-image: url(../images/dog.png);
 }
 [for="cat"] {
     background-image: url(../images/cat.png);
@@ -25,41 +27,16 @@
 
 [for="dog"],
 [for="cat"] {
+    content: "";
     position: relative;
     display: block;
-    width: 60px;
-    height: 60px;
-
+    width: 100px;
+    height: 100px;
+    border-width: 8px;
+    border-style: unset;
     background-size: cover;
     cursor: pointer;
-}
-
-[for="dog"]:after,
-[for="cat"]:after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    opacity: 0.45;
-}
-
-[for="dog"]:before,
-[for="cat"]:before {
-    content: "";
-    position: absolute;
-}
-
-#dog:checked ~ [for="dog"]:after,
-#cat:checked ~ [for="cat"]:after {
-    border-radius: 100%;
-    opacity: 0;
-}
-
-#cat:checked ~ [for="cat"]:after {
-    background-color: rgba(65, 105, 225, 0.7);
-    background-image: url(../images/cat.png);
-    background-size: cover;
+    margin: 8px;
 }
 
 .information {
@@ -74,23 +51,7 @@
 }
 
 .searchBar {
-    background-color: CornflowerBlue;
-    width: 310px;
-    margin: 0 auto;
-    margin-bottom: 5px;
-}
-
-input[name="theSearch"] {
-    background-color: CornflowerBlue;
-    border: none;
-    height: 20px;
-    width: 300px;
-}
-
-button {
-    background-color: CornflowerBlue;
-    border: none;
-    cursor: pointer;
+    margin-bottom: 40px;
 }
 
 button:focus,
@@ -99,13 +60,13 @@ input[name="theSearch"]:focus {
 }
 
 #content {
+    position: relative;
     background-color: LightSteelBlue;
     width: 70%;
-    top: 20px;
     margin: 0 auto;
 }
 
-.percentage,
+/*.percentage,
 .recipe {
     display: inline-block;
     border: 2px solid CornflowerBlue;
@@ -117,8 +78,8 @@ input[name="theSearch"]:focus {
 }
 
 .percentage {
-    width: 20%;
-}
+    width: 10%;
+}*/
 
 .logo img {
     width: 150px;

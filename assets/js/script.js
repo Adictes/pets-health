@@ -15,7 +15,7 @@ window.onload = function() {
         var output = "";
 
         output +=
-            '<div class="naming"> <div class="percentage">Вероятность болезни</div><div class="recipe">Диагноз и рекомендации</div></div>';
+            '<div class="naming columns"> <div class="percentage column is-1">Вероятность болезни</div><div class="recipe column is-9">Диагноз и рекомендации</div></div>';
 
         document.getElementById("content").innerHTML = output;
 
@@ -31,7 +31,7 @@ wsr.onmessage = function(event) {
     var data = JSON.parse(event.data);
 
     var output =
-        '<div class="naming"><div class="percentage">%</div><div class="recipe">' +
+        '<div class="naming"><div class="percentage">*(тут будут проценты)</div><div class="recipe">' +
         data.name +
         ":  " +
         data.therapy +

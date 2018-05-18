@@ -104,6 +104,7 @@ func GetRequest(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 				d := item.(Disease)
 				fmt.Printf("OUTPUT___: Name: %s\nSymptoms: %s\n,Therapy: %s\nPets: %s\n",
 					d.Name, d.Symptoms, d.Therapy, d.Pets)
+				ws.WriteJSON(d)
 			}
 		}
 	}

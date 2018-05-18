@@ -9,55 +9,75 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<link href="../assets/css/dopstyle.css" rel="stylesheet" media="screen">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css" rel="stylesheet">
 	<script src="../assets/js/script.js"></script>
+	<script>
+	     function changeBG(){
+		   if (document.getElementById("dog").checked==true) {
+			document.getElementById("d").style.backgroundColor="white";
+			document.getElementById("d").style.borderWidth="8px";
+			document.getElementById("d").style.borderStyle="solid";
+			document.getElementById("d").style.borderColor="navy";
+		   }
+		   else {
+			document.getElementById("d").style.backgroundColor=document.body.style.backgroundColor;
+			document.getElementById("d").style.borderStyle="none";
+		   }
+		   if (document.getElementById("cat").checked==true) {
+			document.getElementById("c").style.backgroundColor="white";
+			document.getElementById("c").style.borderWidth="8px";
+			document.getElementById("c").style.borderStyle="solid";
+			document.getElementById("c").style.borderColor="navy";
+		   }
+		   else {
+			document.getElementById("c").style.backgroundColor=document.body.style.backgroundColor;
+			document.getElementById("c").style.borderStyle="none";
+		   }
+		 }
+	</script>
 </head>
 
 <body>
 
-	<div class="wholePage">
-		<div class="headLine">
-			<div class="logo"><img src="../assets/images/icon1.png"></div>
+	<header class="headLine">
+		<div>
+			<div class="logo">
+				<img src="../assets/images/icon1.png">
+			</div>
 
 		</div>
 
-		<div class="information">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-			Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-			irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-			non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+		<div class="information"></div>
 
+	</header>
+
+	<hgroup>
 		<div class="animals">
-			<div class="animal dog">
-				<input type="radio" id="dog" name="a" />
+			<div class="animal dog" id="d">
+				<input type="radio" id="dog" name="a" checked onclick="changeBG()" style="display:none;">
 				<label for="dog"></label>
 			</div>
-			<div class="animal">
-				<input type="radio" id="cat" name="a" />
+			<div class="cat" id="c">
+				<input type="radio" id="cat" name="a" onclick="changeBG()" style="display:none;">
 				<label for="cat"></label>
 			</div>
 
-
-
-
 		</div>
-
 		<div class="searchBar">
-			<input id="theSearch" name="theSearch">
-			<button id="searchButton">поиск</button>
-
+			<div class="control is-expanded">
+				<input class="input is-rounded" type="text" id="theSearch" placeholder="Введите симптомы" size="40" maxlength="60">
+			</div>
+			<div class="control">
+				<a class="button is-primary" id="searchButton">
+					Поиск
+				</a>
+			</div>
 		</div>
-
+	</hgroup>
+	<figure>
 		<div id="content"> </div>
-
-
-
-
-
-
 		<div class="animals"></div>
-
-
-	</div>
-
+	</figure>
 
 
 </body>
